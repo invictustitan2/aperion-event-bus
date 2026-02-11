@@ -30,6 +30,7 @@ class TestMemoryStability:
 
         # Create handlers with weak references to track garbage collection
         collected: list[bool] = []
+        refs: list[weakref.ref] = []  # Must keep weakrefs alive for callbacks to fire
 
         for idx in range(100):
             # Create a handler with trackable lifecycle
@@ -41,7 +42,7 @@ class TestMemoryStability:
                     pass
 
             handler = Handler(idx)
-            weakref.ref(handler, lambda ref: collected.append(True))  # noqa: F841
+            refs.append(weakref.ref(handler, lambda ref: collected.append(True)))
 
             sub_id = bus.subscribe(handler, f"test.event.{idx}")
             bus.unsubscribe(sub_id)
@@ -49,8 +50,9 @@ class TestMemoryStability:
             # Remove local reference
             del handler
 
-        # Force garbage collection
-        gc.collect()
+        # Force garbage collection (multiple passes for generational GC)
+        for _ in range(3):
+            gc.collect()
 
         # All handlers should be garbage collected
         assert len(collected) == 100, f"Only {len(collected)}/100 handlers were collected"
