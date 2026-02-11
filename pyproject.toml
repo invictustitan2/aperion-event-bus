@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "aperion-event-bus"
-version = "0.3.0"
+version = "1.2.1"
 description = "The Nervous System - A standalone event bus with correlation ID tracking, audit logging, and PII safety"
 readme = "README.md"
 license = "MIT"
@@ -52,9 +52,10 @@ observability = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/aperion/aperion-event-bus"
-Documentation = "https://github.com/aperion/aperion-event-bus#readme"
-Repository = "https://github.com/aperion/aperion-event-bus"
+Homepage = "https://github.com/invictustitan2/aperion-event-bus"
+Documentation = "https://github.com/invictustitan2/aperion-event-bus#readme"
+Repository = "https://github.com/invictustitan2/aperion-event-bus"
+"Bug Tracker" = "https://github.com/invictustitan2/aperion-event-bus/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/aperion_event_bus"]
